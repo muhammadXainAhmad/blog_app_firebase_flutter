@@ -7,40 +7,24 @@ class MyLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(context).width;
+    final screenH = MediaQuery.sizeOf(context).height;
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: bgClr,
+        appBar: AppBar(
+          backgroundColor: bgClr,
+          iconTheme: IconThemeData(color: blackClr, size: 28),
+        ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: screenH * 0.05),
+              buildLogo(screenW),
+              SizedBox(height: screenH * 0.1),
               Padding(
-                padding: const EdgeInsets.only(bottom: 50),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      width: screenW * 0.3,
-                      height: screenW * 0.3,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: RadialGradient(
-                          colors: [primaryClr, primaryClr.shade300],
-                          center: Alignment.center,
-                          radius: 0.9,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      "BLOGD.",
-                      style: TextStyle(color: whiteClr, fontSize: 32),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
+                padding: const EdgeInsets.only(bottom: 8),
                 child: SizedBox(
                   width: screenW * 0.9,
 
@@ -88,7 +72,7 @@ class MyLoginPage extends StatelessWidget {
                         "Forgotten Password?",
                         style: TextStyle(
                           color: blackClr,
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -109,8 +93,8 @@ class MyLoginPage extends StatelessWidget {
                   ),
                   onPressed: () {},
                   child: Text(
-                    "Login",
-                    style: TextStyle(color: whiteClr, fontSize: 18),
+                    "LOGIN",
+                    style: TextStyle(color: whiteClr, fontSize: 16),
                   ),
                 ),
               ),
@@ -126,7 +110,7 @@ class MyLoginPage extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: Text(
                       "Or continue with",
-                      style: TextStyle(color: blackClr, fontSize: 16),
+                      style: TextStyle(color: blackClr, fontSize: 14),
                     ),
                   ),
                   SizedBox(
@@ -143,7 +127,7 @@ class MyLoginPage extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: whiteClr,
-                        minimumSize: Size(screenW * 0.45, 50),
+                        minimumSize: Size(screenW * 0.42, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -156,7 +140,7 @@ class MyLoginPage extends StatelessWidget {
                           Image.asset("assets/googleLogo.png", height: 40),
                           Text(
                             "Google",
-                            style: TextStyle(color: blackClr, fontSize: 18),
+                            style: TextStyle(color: blackClr, fontSize: 16),
                           ),
                         ],
                       ),
@@ -167,7 +151,7 @@ class MyLoginPage extends StatelessWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: whiteClr,
-                        minimumSize: Size(screenW * 0.45, 50),
+                        minimumSize: Size(screenW * 0.42, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -183,7 +167,7 @@ class MyLoginPage extends StatelessWidget {
                           ),
                           Text(
                             "Phone",
-                            style: TextStyle(color: blackClr, fontSize: 18),
+                            style: TextStyle(color: blackClr, fontSize: 16),
                           ),
                         ],
                       ),

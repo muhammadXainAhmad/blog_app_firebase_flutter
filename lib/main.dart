@@ -1,4 +1,6 @@
-import 'package:blog_app_firebase/Views/register.dart';
+import 'package:blog_app_firebase/Views/landing.dart';
+import 'package:blog_app_firebase/Views/login.dart';
+import 'package:blog_app_firebase/Views/signup.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,6 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      routes: {
+        "login": (context) => const MyLoginPage(),
+        "signup": (context) => const MySignUpPage(),
+      },
       home: MyRegisterPage(),
     );
   }

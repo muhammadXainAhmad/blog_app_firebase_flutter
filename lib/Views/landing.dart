@@ -63,19 +63,19 @@ class MyRegisterPage extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: "Tell your",
-                          style: TextStyle(color: blackClr, fontSize: 26),
+                          style: TextStyle(color: blackClr, fontSize: 24),
                         ),
                         TextSpan(
                           text: " story ",
                           style: TextStyle(
                             color: blackClr,
-                            fontSize: 26,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextSpan(
                           text: "with us.",
-                          style: TextStyle(color: blackClr, fontSize: 26),
+                          style: TextStyle(color: blackClr, fontSize: 24),
                         ),
                       ],
                     ),
@@ -86,7 +86,9 @@ class MyRegisterPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed("login");
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(screenW * 0.75, 50),
                   backgroundColor: bgClr,
@@ -97,14 +99,16 @@ class MyRegisterPage extends StatelessWidget {
                 ),
                 child: Text(
                   "Login",
-                  style: TextStyle(color: blackClr, fontSize: 19),
+                  style: TextStyle(color: blackClr, fontSize: 16),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed("signup");
+                },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(screenW * 0.75, 50),
                   backgroundColor: blackClr,
@@ -115,7 +119,7 @@ class MyRegisterPage extends StatelessWidget {
                 ),
                 child: Text(
                   "Register",
-                  style: TextStyle(color: whiteClr, fontSize: 18),
+                  style: TextStyle(color: whiteClr, fontSize: 16),
                 ),
               ),
             ),
