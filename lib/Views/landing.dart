@@ -1,8 +1,8 @@
 import 'package:blog_app_firebase/Utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class MyRegisterPage extends StatelessWidget {
-  const MyRegisterPage({super.key});
+class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
 
   @override
   Widget build(BuildContext context) {

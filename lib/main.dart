@@ -1,3 +1,4 @@
+import 'package:blog_app_firebase/Views/home.dart';
 import 'package:blog_app_firebase/Views/landing.dart';
 import 'package:blog_app_firebase/Views/login.dart';
 import 'package:blog_app_firebase/Views/signup.dart';
@@ -18,10 +19,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       routes: {
-        "login": (context) => const MyLoginPage(),
-        "signup": (context) => const MySignUpPage(),
+        "login": (context) => const LoginPage(),
+        "signup": (context) => const SignUpPage(),
+        "home": (context) => const HomePage(),
       },
-      home: MyRegisterPage(),
+      home: LandingPage(),
     );
   }
 }
