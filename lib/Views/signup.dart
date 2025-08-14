@@ -1,4 +1,5 @@
-import 'package:blog_app_firebase/Utils/constants.dart';
+import 'package:blog_app_firebase/utils/constants.dart';
+import 'package:blog_app_firebase/utils/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -83,7 +84,7 @@ class SignUpPage extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: SizedBox(
                     width: screenW * 0.9,
-                    child: TextField(
+                    child: TextField(obscureText: true,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: whiteClr,

@@ -1,4 +1,5 @@
-import 'package:blog_app_firebase/Utils/constants.dart';
+import 'package:blog_app_firebase/utils/constants.dart';
+import 'package:blog_app_firebase/utils/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -28,7 +29,6 @@ class LoginPage extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: SizedBox(
                     width: screenW * 0.9,
-          
                     child: TextField(
                       decoration: InputDecoration(
                         filled: true,
@@ -46,6 +46,7 @@ class LoginPage extends StatelessWidget {
                   child: SizedBox(
                     width: screenW * 0.9,
                     child: TextField(
+                      obscureText: true,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: whiteClr,
@@ -92,14 +93,16 @@ class LoginPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {Navigator.of(context).pushNamed("home");},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("home");
+                    },
                     child: Text(
                       "LOGIN",
                       style: TextStyle(color: whiteClr, fontSize: 16),
                     ),
                   ),
                 ),
-          
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -175,6 +178,14 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+
+                TextButton(
+                  onPressed: () => Navigator.of(context).pushNamed("signup"),
+                  child: Text(
+                    "Create a new account?",
+                    style: TextStyle(color: primaryClr, fontSize: 14),
+                  ),
                 ),
               ],
             ),

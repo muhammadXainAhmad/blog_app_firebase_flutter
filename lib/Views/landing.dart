@@ -1,4 +1,4 @@
-import 'package:blog_app_firebase/Utils/constants.dart';
+import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatelessWidget {
@@ -99,7 +99,11 @@ class LandingPage extends StatelessWidget {
                 ),
                 child: Text(
                   "Login",
-                  style: TextStyle(color: blackClr, fontSize: 16),
+                  style: TextStyle(
+                    color: blackClr,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -119,7 +123,11 @@ class LandingPage extends StatelessWidget {
                 ),
                 child: Text(
                   "Register",
-                  style: TextStyle(color: whiteClr, fontSize: 16),
+                  style: TextStyle(
+                    color: whiteClr,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

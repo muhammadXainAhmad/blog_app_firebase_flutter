@@ -1,4 +1,4 @@
-import 'package:blog_app_firebase/Utils/constants.dart';
+import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class HomeNavBar extends StatelessWidget {
