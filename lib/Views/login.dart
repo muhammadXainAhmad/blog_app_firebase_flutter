@@ -1,5 +1,6 @@
+import 'package:blog_app_firebase/methods/auth_methods.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
-import 'package:blog_app_firebase/utils/widgets/logo.dart';
+import 'package:blog_app_firebase/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -10,6 +11,8 @@ class LoginPage extends StatelessWidget {
     final screenW = MediaQuery.sizeOf(context).width;
     final screenH = MediaQuery.sizeOf(context).height;
 
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -30,6 +33,8 @@ class LoginPage extends StatelessWidget {
                   child: SizedBox(
                     width: screenW * 0.9,
                     child: TextField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: whiteClr,
@@ -47,6 +52,8 @@ class LoginPage extends StatelessWidget {
                     width: screenW * 0.9,
                     child: TextField(
                       obscureText: true,
+                      controller: passwordController,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: whiteClr,
@@ -93,8 +100,25 @@ class LoginPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("home");
+                    onPressed: () async {
+                      String message = await AuthMethods()
+                          .loginWithEmailAndPassword(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                          );
+                      if (message == "Success") {
+                        showSnackBar(
+                          context: context,
+                          message: "Successfully Logged In!",
+                          clr: successClr,
+                        );
+                      } else {
+                        showSnackBar(
+                          context: context,
+                          message: message,
+                          clr: errorClr,
+                        );
+                      }
                     },
                     child: Text(
                       "LOGIN",
