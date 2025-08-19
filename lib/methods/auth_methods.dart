@@ -10,13 +10,13 @@ class AuthMethods {
   final _firestore = FirebaseFirestore.instance;
 
   // SIGN UP USING EMAIL AND PASSWORD
-  Future<String> signUpWithEmailAndPassword({
+  Future<void> signUpWithEmailAndPassword({
+    required BuildContext context,
     required String email,
     required String password,
     required String firstName,
     required String lastName,
   }) async {
-    String message = "";
     try {
       if (firstName.isNotEmpty &&
           lastName.isNotEmpty &&
@@ -39,94 +39,165 @@ class AuthMethods {
             .doc(userCred.user!.uid)
             .set(user.toMap());
 
-        message = "Success";
+        if (context.mounted) {
+          showSnackBar(
+            context: context,
+            message: "Account Successfully Created!",
+            clr: successClr,
+          );
+          Navigator.of(context).pushReplacementNamed("home");
+        }
       } else {
-        message = "Please fill all required fields!";
+        if (context.mounted) {
+          showSnackBar(
+            context: context,
+            message: "Please fill all required fields!",
+            clr: errorClr,
+          );
+        }
       }
     } catch (err) {
-      message = err.toString();
+      if (context.mounted) {
+        showSnackBar(
+          context: context,
+          message: err.toString(),
+          clr: successClr,
+        );
+      }
     }
-    return message;
   }
 
   // SIGN UP WITH GOOGLE
 
   // SIGN UP WITH PHONE
-  Future<String> loginWithPhone(
+  Future<void> loginWithPhone(
     BuildContext context,
     String phoneNumber,
+    String fName,
+    String lName,
   ) async {
     TextEditingController codeController = TextEditingController();
-    String message = "";
     try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (phoneAuthCredential) async {
-          await _auth.signInWithCredential(phoneAuthCredential);
-        },
-        verificationFailed: (error) {
+      if (phoneNumber.isNotEmpty && fName.isNotEmpty && lName.isNotEmpty) {
+        await _auth.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          verificationCompleted: (phoneAuthCredential) async {
+            UserCredential userCred = await _auth.signInWithCredential(
+              phoneAuthCredential,
+            );
+            await _firestore
+                .collection("users")
+                .doc(userCred.user!.uid)
+                .set(
+                  UserModel(
+                    uid: userCred.user!.uid,
+                    firstName: fName,
+                    lastName: lName,
+                    phoneNumber: phoneNumber,
+                  ).toMap(),
+                  SetOptions(merge: true),
+                );
+          },
+          verificationFailed: (error) {
+            showSnackBar(
+              context: context,
+              message: error.message!,
+              clr: errorClr,
+            );
+          },
+          codeSent: (verificationId, forceResendingToken) async {
+            showOTPDialog(
+              context: context,
+              codeController: codeController,
+              onPressed: () async {
+                try {
+                  PhoneAuthCredential credential = PhoneAuthProvider.credential(
+                    verificationId: verificationId,
+                    smsCode: codeController.text.trim(),
+                  );
+                  UserCredential userCred = await _auth.signInWithCredential(
+                    credential,
+                  );
+                  await _firestore
+                      .collection("users")
+                      .doc(userCred.user!.uid)
+                      .set(
+                        UserModel(
+                          uid: userCred.user!.uid,
+                          firstName: fName,
+                          lastName: lName,
+                          phoneNumber: phoneNumber,
+                        ).toMap(),
+                        SetOptions(merge: true),
+                      );
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacementNamed("home");
+                  }
+                } catch (err) {
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                    showSnackBar(
+                      context: context,
+                      message: err.toString(),
+                      clr: errorClr,
+                    );
+                  }
+                }
+              },
+            );
+          },
+          codeAutoRetrievalTimeout: (verificationId) {},
+        );
+      } else {
+        if (context.mounted) {
           showSnackBar(
             context: context,
-            message: error.message!,
+            message: "Please fill all required fields!",
             clr: errorClr,
           );
-        },
-        codeSent: (verificationId, forceResendingToken) async {
-          showOTPDialog(
-            context: context,
-            codeController: codeController,
-            onPressed: () async {
-              try {
-                PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                  verificationId: verificationId,
-                  smsCode: codeController.text.trim(),
-                );
-                await _auth.signInWithCredential(credential);
-                if (context.mounted) {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pushReplacementNamed("home");
-                }
-              } catch (err) {
-                if (context.mounted) {
-                  Navigator.of(context).pop();
-                  showSnackBar(
-                    context: context,
-                    message: err.toString(),
-                    clr: errorClr,
-                  );
-                }
-              }
-            },
-          );
-        },
-        codeAutoRetrievalTimeout: (verificationId) {},
-      );
+        }
+      }
     } catch (err) {
-      message = err.toString();
+      if (context.mounted) {
+        showSnackBar(
+          context: context,
+          message: err.toString(),
+          clr: successClr,
+        );
+      }
     }
-    return message;
   }
 
   // LOGIN WITH EMAIL AND PASSWORD
-  Future<String> loginWithEmailAndPassword({
+  Future<void> loginWithEmailAndPassword({
+    required BuildContext context,
     required String email,
     required String password,
   }) async {
-    String message = "";
     try {
       if (email.isNotEmpty && password.isNotEmpty) {
         await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
-        message = "Success";
+        if (context.mounted) {
+          Navigator.of(context).pushReplacementNamed("home");
+        }
       } else {
-        message = "Please fill all required fields!";
+        if (context.mounted) {
+          showSnackBar(
+            context: context,
+            message: "Please fill all required fields!",
+            clr: errorClr,
+          );
+        }
       }
     } catch (err) {
-      message = err.toString();
+      if (context.mounted) {
+        showSnackBar(context: context, message: err.toString(), clr: errorClr);
+      }
     }
-    return message;
   }
 
   // SIGN OUT

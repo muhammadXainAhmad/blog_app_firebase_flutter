@@ -130,30 +130,13 @@ class SignUpPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      String message = "";
-                      message = await AuthMethods().signUpWithEmailAndPassword(
+                      await AuthMethods().signUpWithEmailAndPassword(
+                        context: context,
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
                         firstName: fNameController.text.trim(),
                         lastName: lNameController.text.trim(),
                       );
-                      if (message == "Success") {
-                        if (context.mounted) {
-                          showSnackBar(
-                            context: context,
-                            message: "Account Successfully Created!",
-                            clr: successClr,
-                          );
-                        }
-                      } else {
-                        if (context.mounted) {
-                          showSnackBar(
-                            context: context,
-                            message: message,
-                            clr: errorClr,
-                          );
-                        }
-                      }
                     },
                     child: Text(
                       "SIGNUP",

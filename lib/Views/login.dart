@@ -101,24 +101,11 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      String message = await AuthMethods()
-                          .loginWithEmailAndPassword(
-                            email: emailController.text.trim(),
-                            password: passwordController.text.trim(),
-                          );
-                      if (message == "Success") {
-                        if (context.mounted) {
-                          Navigator.of(context).pushReplacementNamed("home");
-                        }
-                      } else {
-                        if (context.mounted) {
-                          showSnackBar(
-                            context: context,
-                            message: message,
-                            clr: errorClr,
-                          );
-                        }
-                      }
+                      await AuthMethods().loginWithEmailAndPassword(
+                        context: context,
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                      );
                     },
                     child: Text(
                       "LOGIN",
