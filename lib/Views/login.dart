@@ -107,17 +107,17 @@ class LoginPage extends StatelessWidget {
                             password: passwordController.text.trim(),
                           );
                       if (message == "Success") {
-                        showSnackBar(
-                          context: context,
-                          message: "Successfully Logged In!",
-                          clr: successClr,
-                        );
+                        if (context.mounted) {
+                          Navigator.of(context).pushReplacementNamed("home");
+                        }
                       } else {
-                        showSnackBar(
-                          context: context,
-                          message: message,
-                          clr: errorClr,
-                        );
+                        if (context.mounted) {
+                          showSnackBar(
+                            context: context,
+                            message: message,
+                            clr: errorClr,
+                          );
+                        }
                       }
                     },
                     child: Text(
@@ -184,7 +184,9 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("phone");
+                        },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

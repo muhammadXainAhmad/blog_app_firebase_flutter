@@ -1,21 +1,30 @@
+import 'package:blog_app_firebase/methods/auth_methods.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:blog_app_firebase/Views/nav_bar.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(context).width;
     final screenH = MediaQuery.sizeOf(context).height;
     return Scaffold(
       bottomNavigationBar: HomeNavBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await AuthMethods().signOut();
+              if (context.mounted) {
+                Navigator.of(context).pushReplacementNamed("landing");
+              }
+            },
+            icon: Icon(Icons.exit_to_app),
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
           children: [
@@ -108,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               onPressed: () {},
                               child: Text(
-                                "Read more", 
+                                "Read more",
                                 style: TextStyle(color: whiteClr, fontSize: 14),
                               ),
                             ),

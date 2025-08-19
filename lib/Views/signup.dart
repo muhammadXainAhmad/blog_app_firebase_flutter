@@ -138,23 +138,112 @@ class SignUpPage extends StatelessWidget {
                         lastName: lNameController.text.trim(),
                       );
                       if (message == "Success") {
-                        showSnackBar(
-                          context: context,
-                          message: "Account Successfully Created!",
-                          clr: successClr,
-                        );
+                        if (context.mounted) {
+                          showSnackBar(
+                            context: context,
+                            message: "Account Successfully Created!",
+                            clr: successClr,
+                          );
+                        }
                       } else {
-                        showSnackBar(
-                          context: context,
-                          message: message,
-                          clr: errorClr,
-                        );
+                        if (context.mounted) {
+                          showSnackBar(
+                            context: context,
+                            message: message,
+                            clr: errorClr,
+                          );
+                        }
                       }
                     },
                     child: Text(
                       "SIGNUP",
                       style: TextStyle(color: whiteClr, fontSize: 16),
                     ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 100,
+                      child: Divider(color: bgClr2, thickness: 1.5),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Text(
+                        "Or continue with",
+                        style: TextStyle(color: blackClr, fontSize: 14),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 100,
+                      child: Divider(color: bgClr2, thickness: 1.5),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: whiteClr,
+                          minimumSize: Size(screenW * 0.42, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/googleLogo.png", height: 40),
+                            Text(
+                              "Google",
+                              style: TextStyle(color: blackClr, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: whiteClr,
+                          minimumSize: Size(screenW * 0.42, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed("phone");
+                        },
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.phone_iphone_rounded,
+                              size: 30,
+                              color: blackClr,
+                            ),
+                            Text(
+                              "Phone",
+                              style: TextStyle(color: blackClr, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pushNamed("login"),
+                  child: Text(
+                    "Already have an account?",
+                    style: TextStyle(color: primaryClr, fontSize: 14),
                   ),
                 ),
               ],
