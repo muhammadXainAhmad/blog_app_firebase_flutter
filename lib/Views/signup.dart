@@ -1,19 +1,46 @@
 import 'package:blog_app_firebase/methods/auth_methods.dart';
+import 'package:blog_app_firebase/provider/ui_state_provider.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:blog_app_firebase/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  late final TextEditingController fNameController;
+  late final TextEditingController lNameController;
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    fNameController = TextEditingController();
+    lNameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    fNameController.dispose();
+    lNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(context).width;
     final screenH = MediaQuery.sizeOf(context).height;
 
-    final TextEditingController fNameController = TextEditingController();
-    final TextEditingController lNameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -101,7 +128,7 @@ class SignUpPage extends StatelessWidget {
                     width: screenW * 0.9,
                     child: TextField(
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: context.watch<UiStateProvider>().hidePass,
                       controller: passwordController,
                       decoration: InputDecoration(
                         filled: true,
@@ -110,10 +137,19 @@ class SignUpPage extends StatelessWidget {
                         focusedBorder: fBorder,
                         hintText: "Password",
                         hintStyle: TextStyle(color: blackClr, fontSize: 16),
-                        suffixIcon: Icon(
-                          Icons.visibility_rounded,
-                          size: 26,
-                          color: blackClr,
+                        suffixIcon: GestureDetector(
+                          onTap:
+                              () =>
+                                  context
+                                      .read<UiStateProvider>()
+                                      .toggleHidePass(),
+                          child: Icon(
+                            context.watch<UiStateProvider>().hidePass
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            size: 26,
+                            color: blackClr,
+                          ),
                         ),
                       ),
                     ),
@@ -130,6 +166,8 @@ class SignUpPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
+                      final loadingProvider = context.read<UiStateProvider>();
+                      loadingProvider.updateIsLoading(true);
                       await AuthMethods().signUpWithEmailAndPassword(
                         context: context,
                         email: emailController.text.trim(),
@@ -137,11 +175,18 @@ class SignUpPage extends StatelessWidget {
                         firstName: fNameController.text.trim(),
                         lastName: lNameController.text.trim(),
                       );
+                      loadingProvider.updateIsLoading(false);
                     },
-                    child: Text(
-                      "SIGNUP",
-                      style: TextStyle(color: whiteClr, fontSize: 16),
-                    ),
+                    child:
+                        context.watch<UiStateProvider>().isLoading
+                            ? CircularProgressIndicator(
+                              color: whiteClr,
+                              strokeWidth: 2,
+                            )
+                            : Text(
+                              "SIGNUP",
+                              style: TextStyle(color: whiteClr, fontSize: 16),
+                            ),
                   ),
                 ),
                 Row(
@@ -202,7 +247,9 @@ class SignUpPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed("phone",arguments: false);
+                          Navigator.of(
+                            context,
+                          ).pushNamed("phone", arguments: false);
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,

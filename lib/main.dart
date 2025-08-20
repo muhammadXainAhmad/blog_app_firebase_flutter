@@ -5,6 +5,7 @@ import 'package:blog_app_firebase/Views/login.dart';
 import 'package:blog_app_firebase/Views/phone_login.dart';
 import 'package:blog_app_firebase/Views/signup.dart';
 import 'package:blog_app_firebase/firebase_options.dart';
+import 'package:blog_app_firebase/provider/ui_state_provider.dart';
 import 'package:blog_app_firebase/provider/nav_bar_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => NavBarProvider()),
+        ChangeNotifierProvider(create: (context) => UiStateProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -40,7 +42,7 @@ class MyApp extends StatelessWidget {
           "landing": (context) => const LandingPage(),
           "phone": (context) {
             final args = ModalRoute.of(context)!.settings.arguments as bool;
-            return PhoneLogin(isLogin: args);
+            return PhoneLoginPage(isLogin: args);
           },
           "layout": (context) => const Layout(),
         },

@@ -1,11 +1,13 @@
 import 'package:blog_app_firebase/methods/auth_methods.dart';
+import 'package:blog_app_firebase/provider/ui_state_provider.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:blog_app_firebase/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class PhoneLogin extends StatelessWidget {
+class PhoneLoginPage extends StatelessWidget {
   final bool isLogin;
-  const PhoneLogin({super.key, required this.isLogin});
+  const PhoneLoginPage({super.key, required this.isLogin});
 
   @override
   Widget build(BuildContext context) {
@@ -112,19 +114,28 @@ class PhoneLogin extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      AuthMethods().loginWithPhone(
+                      final loadingProvider = context.read<UiStateProvider>();
+                      loadingProvider.updateIsLoading(true);
+                      await AuthMethods().loginWithPhone(
                         context,
                         "+92${phoneController.text.trim()}",
                         fNameController.text.trim(),
                         lNameController.text.trim(),
                         isLogin,
                       );
+                      loadingProvider.updateIsLoading(false);
                     },
 
-                    child: Text(
-                      "Receive OTP",
-                      style: TextStyle(color: whiteClr, fontSize: 16),
-                    ),
+                    child:
+                        context.watch<UiStateProvider>().isLoading
+                            ? CircularProgressIndicator(
+                              color: whiteClr,
+                              strokeWidth: 2,
+                            )
+                            : Text(
+                              "Receive OTP",
+                              style: TextStyle(color: whiteClr, fontSize: 16),
+                            ),
                   ),
                 ),
               ],

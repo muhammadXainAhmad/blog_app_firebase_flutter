@@ -1,18 +1,39 @@
 import 'package:blog_app_firebase/methods/auth_methods.dart';
+import 'package:blog_app_firebase/provider/ui_state_provider.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:blog_app_firebase/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(context).width;
     final screenH = MediaQuery.sizeOf(context).height;
-
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -51,7 +72,7 @@ class LoginPage extends StatelessWidget {
                   child: SizedBox(
                     width: screenW * 0.9,
                     child: TextField(
-                      obscureText: true,
+                      obscureText: context.watch<UiStateProvider>().hidePass,
                       controller: passwordController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -61,10 +82,19 @@ class LoginPage extends StatelessWidget {
                         focusedBorder: fBorder,
                         hintText: "Password",
                         hintStyle: TextStyle(color: blackClr, fontSize: 16),
-                        suffixIcon: Icon(
-                          Icons.visibility_rounded,
-                          size: 26,
-                          color: blackClr,
+                        suffixIcon: GestureDetector(
+                          onTap:
+                              () =>
+                                  context
+                                      .read<UiStateProvider>()
+                                      .toggleHidePass(),
+                          child: Icon(
+                            context.watch<UiStateProvider>().hidePass
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            size: 26,
+                            color: blackClr,
+                          ),
                         ),
                       ),
                     ),
@@ -101,16 +131,25 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
+                      final loadingProvider = context.read<UiStateProvider>();
+                      loadingProvider.updateIsLoading(true);
                       await AuthMethods().loginWithEmailAndPassword(
                         context: context,
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
                       );
+                      loadingProvider.updateIsLoading(false);
                     },
-                    child: Text(
-                      "LOGIN",
-                      style: TextStyle(color: whiteClr, fontSize: 16),
-                    ),
+                    child:
+                        context.watch<UiStateProvider>().isLoading
+                            ? CircularProgressIndicator(
+                              color: whiteClr,
+                              strokeWidth: 2,
+                            )
+                            : Text(
+                              "LOGIN",
+                              style: TextStyle(color: whiteClr, fontSize: 16),
+                            ),
                   ),
                 ),
 
@@ -172,7 +211,9 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed("phone",arguments: true);
+                          Navigator.of(
+                            context,
+                          ).pushNamed("phone", arguments: true);
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,

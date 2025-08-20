@@ -20,4 +20,6 @@ class UserModel {
     "email": email,
     "phoneNumber": phoneNumber,
   };
+
+  
 }
