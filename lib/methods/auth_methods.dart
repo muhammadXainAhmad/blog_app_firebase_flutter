@@ -45,7 +45,7 @@ class AuthMethods {
             message: "Account Successfully Created!",
             clr: successClr,
           );
-          Navigator.of(context).pushReplacementNamed("home");
+          Navigator.of(context).pushReplacementNamed("layout");
         }
       } else {
         if (context.mounted) {
@@ -75,28 +75,32 @@ class AuthMethods {
     String phoneNumber,
     String fName,
     String lName,
+    bool isLogin,
   ) async {
     TextEditingController codeController = TextEditingController();
     try {
-      if (phoneNumber.isNotEmpty && fName.isNotEmpty && lName.isNotEmpty) {
+      if (phoneNumber.isNotEmpty &&
+          (isLogin || (fName.isNotEmpty) && (lName.isNotEmpty))) {
         await _auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,
           verificationCompleted: (phoneAuthCredential) async {
             UserCredential userCred = await _auth.signInWithCredential(
               phoneAuthCredential,
             );
-            await _firestore
-                .collection("users")
-                .doc(userCred.user!.uid)
-                .set(
-                  UserModel(
-                    uid: userCred.user!.uid,
-                    firstName: fName,
-                    lastName: lName,
-                    phoneNumber: phoneNumber,
-                  ).toMap(),
-                  SetOptions(merge: true),
-                );
+            if (!isLogin) {
+              await _firestore
+                  .collection("users")
+                  .doc(userCred.user!.uid)
+                  .set(
+                    UserModel(
+                      uid: userCred.user!.uid,
+                      firstName: fName,
+                      lastName: lName,
+                      phoneNumber: phoneNumber,
+                    ).toMap(),
+                    SetOptions(merge: true),
+                  );
+            }
           },
           verificationFailed: (error) {
             showSnackBar(
@@ -118,21 +122,23 @@ class AuthMethods {
                   UserCredential userCred = await _auth.signInWithCredential(
                     credential,
                   );
-                  await _firestore
-                      .collection("users")
-                      .doc(userCred.user!.uid)
-                      .set(
-                        UserModel(
-                          uid: userCred.user!.uid,
-                          firstName: fName,
-                          lastName: lName,
-                          phoneNumber: phoneNumber,
-                        ).toMap(),
-                        SetOptions(merge: true),
-                      );
+                  if (!isLogin) {
+                    await _firestore
+                        .collection("users")
+                        .doc(userCred.user!.uid)
+                        .set(
+                          UserModel(
+                            uid: userCred.user!.uid,
+                            firstName: fName,
+                            lastName: lName,
+                            phoneNumber: phoneNumber,
+                          ).toMap(),
+                          SetOptions(merge: true),
+                        );
+                  }
                   if (context.mounted) {
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacementNamed("home");
+                    Navigator.of(context).pushReplacementNamed("layout");
                   }
                 } catch (err) {
                   if (context.mounted) {
@@ -182,7 +188,7 @@ class AuthMethods {
           password: password,
         );
         if (context.mounted) {
-          Navigator.of(context).pushReplacementNamed("home");
+          Navigator.of(context).pushReplacementNamed("layout");
         }
       } else {
         if (context.mounted) {

@@ -4,7 +4,8 @@ import 'package:blog_app_firebase/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
 class PhoneLogin extends StatelessWidget {
-  const PhoneLogin({super.key});
+  final bool isLogin;
+  const PhoneLogin({super.key, required this.isLogin});
 
   @override
   Widget build(BuildContext context) {
@@ -35,43 +36,51 @@ class PhoneLogin extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: screenH * 0.075),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      width: screenW * 0.42,
-                      child: TextField(
-                        textCapitalization: TextCapitalization.words,
-                        keyboardType: TextInputType.text,
-                        controller: fNameController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: whiteClr,
-                          enabledBorder: eBorder,
-                          focusedBorder: fBorder,
-                          hintText: "First Name",
-                          hintStyle: TextStyle(color: blackClr, fontSize: 16),
+                !isLogin
+                    ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          width: screenW * 0.42,
+                          child: TextField(
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.text,
+                            controller: fNameController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: whiteClr,
+                              enabledBorder: eBorder,
+                              focusedBorder: fBorder,
+                              hintText: "First Name",
+                              hintStyle: TextStyle(
+                                color: blackClr,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: screenW * 0.42,
-                      child: TextField(
-                        textCapitalization: TextCapitalization.words,
-                        keyboardType: TextInputType.text,
-                        controller: lNameController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: whiteClr,
-                          enabledBorder: eBorder,
-                          focusedBorder: fBorder,
-                          hintText: "Last Name",
-                          hintStyle: TextStyle(color: blackClr, fontSize: 16),
+                        SizedBox(
+                          width: screenW * 0.42,
+                          child: TextField(
+                            textCapitalization: TextCapitalization.words,
+                            keyboardType: TextInputType.text,
+                            controller: lNameController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: whiteClr,
+                              enabledBorder: eBorder,
+                              focusedBorder: fBorder,
+                              hintText: "Last Name",
+                              hintStyle: TextStyle(
+                                color: blackClr,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
+                      ],
+                    )
+                    : SizedBox.shrink(),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: SizedBox(
@@ -108,6 +117,7 @@ class PhoneLogin extends StatelessWidget {
                         "+92${phoneController.text.trim()}",
                         fNameController.text.trim(),
                         lNameController.text.trim(),
+                        isLogin,
                       );
                     },
 

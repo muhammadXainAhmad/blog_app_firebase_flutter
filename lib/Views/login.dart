@@ -172,7 +172,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed("phone");
+                          Navigator.of(context).pushNamed("phone",arguments: true);
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,

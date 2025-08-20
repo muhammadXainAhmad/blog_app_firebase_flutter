@@ -202,7 +202,7 @@ class SignUpPage extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed("phone");
+                          Navigator.of(context).pushNamed("phone",arguments: false);
                         },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,

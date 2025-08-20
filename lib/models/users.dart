@@ -1,14 +1,14 @@
 class UserModel {
   final String uid;
-  final String firstName;
-  final String lastName;
+  final String? firstName;
+  final String? lastName;
   final String? email;
   final String? phoneNumber;
 
   UserModel({
     required this.uid,
-    required this.firstName,
-    required this.lastName,
+    this.firstName,
+    this.lastName,
     this.email,
     this.phoneNumber,
   });
