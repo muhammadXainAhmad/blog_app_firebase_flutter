@@ -33,11 +33,17 @@ class HomeNavBar extends StatelessWidget {
               color: navProvider.selectedIndex == 0 ? blackClr : bgClr2,
             ),
             label: "",
+          ),BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_box_outlined,
+              color: navProvider.selectedIndex == 1 ? blackClr : bgClr2,
+            ),
+            label: "",
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.settings,
-              color: navProvider.selectedIndex == 1 ? blackClr : bgClr2,
+              color: navProvider.selectedIndex == 2 ? blackClr : bgClr2,
             ),
             label: "",
           ),

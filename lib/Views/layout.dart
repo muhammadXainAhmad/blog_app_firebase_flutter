@@ -1,3 +1,4 @@
+import 'package:blog_app_firebase/Views/add_blog.dart';
 import 'package:blog_app_firebase/Views/home.dart';
 import 'package:blog_app_firebase/Views/nav_bar.dart';
 import 'package:blog_app_firebase/Views/settings.dart';
@@ -11,7 +12,7 @@ class Layout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navProvider = Provider.of<NavBarProvider>(context);
-    final pages = const [HomePage(), SettingsPage()];
+    final pages = const [HomePage(), AddBlogPage(), SettingsPage()];
     return Scaffold(
       bottomNavigationBar: HomeNavBar(),
       body: pages[navProvider.selectedIndex],

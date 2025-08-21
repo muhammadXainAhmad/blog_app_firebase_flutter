@@ -9,8 +9,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(context).width;
     final screenH = MediaQuery.sizeOf(context).height;
-    return Scaffold(
-      appBar: AppBar(
+    return Scaffold(backgroundColor: bgClr,
+      appBar: AppBar(backgroundColor: bgClr,
         actions: [
           IconButton(
             onPressed: () async {
@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
                         width: screenW * 0.9,
                         height: screenH * 0.25,
                         decoration: BoxDecoration(
-                          color: bgClr,
+                          color: whiteClr,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: blackClr),
                         ),

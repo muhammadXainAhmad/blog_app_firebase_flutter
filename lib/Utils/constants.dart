@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 final bgClr = Colors.grey.shade200;
 final bgClr2 = Colors.grey.shade400;
@@ -6,8 +7,8 @@ final bgClr2 = Colors.grey.shade400;
 final primaryClr = Colors.deepOrange;
 final whiteClr = Colors.white;
 final blackClr = Colors.black;
-final successClr=Colors.limeAccent.shade700;
-final errorClr=Colors.red;
+final successClr = Colors.limeAccent.shade700;
+final errorClr = Colors.red;
 
 final eBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(10),
@@ -34,4 +35,12 @@ void showSnackBar({
       ),
     ),
   );
+}
+
+pickImage(ImageSource source) async {
+  final ImagePicker imagePicker = ImagePicker();
+  XFile? file = await imagePicker.pickImage(source: source);
+  if (file != null) {
+    return await file.readAsBytes();
+  }
 }
