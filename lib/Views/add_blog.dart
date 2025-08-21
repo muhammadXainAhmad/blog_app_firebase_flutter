@@ -1,6 +1,8 @@
+import 'package:blog_app_firebase/methods/firestore_methods.dart';
 import 'package:blog_app_firebase/provider/ui_state_provider.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:blog_app_firebase/widgets/image_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +15,7 @@ class AddBlogPage extends StatefulWidget {
 
 class _AddBlogPageState extends State<AddBlogPage> {
   late final TextEditingController blogController;
+  final _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -56,19 +59,20 @@ class _AddBlogPageState extends State<AddBlogPage> {
                   ),
                   width: screenW * 0.9,
                   height: screenH * 0.25,
-                  child: context.watch<UiStateProvider>().file == null
-                      ? Icon(
-                        Icons.add_a_photo_outlined,
-                        size: 32,
-                        color: blackClr,
-                      )
-                      : Image(
-                        image: MemoryImage(
-                          context.watch<UiStateProvider>().file!,
-                        ),
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.center,
-                      ),
+                  child:
+                      context.watch<UiStateProvider>().file == null
+                          ? Icon(
+                            Icons.add_a_photo_outlined,
+                            size: 32,
+                            color: blackClr,
+                          )
+                          : Image(
+                            image: MemoryImage(
+                              context.watch<UiStateProvider>().file!,
+                            ),
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.center,
+                          ),
                 ),
               ),
               Padding(
@@ -78,6 +82,7 @@ class _AddBlogPageState extends State<AddBlogPage> {
                   child: TextField(
                     controller: blogController,
                     keyboardType: TextInputType.multiline,
+                    textCapitalization: TextCapitalization.sentences,
                     minLines: 5,
                     maxLines: 50,
                     decoration: InputDecoration(
@@ -101,11 +106,30 @@ class _AddBlogPageState extends State<AddBlogPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  onPressed: () async {},
-                  child: Text(
-                    "UPLOAD",
-                    style: TextStyle(color: whiteClr, fontSize: 16),
-                  ),
+                  onPressed: () async {
+                    final loadingProvider = context.read<UiStateProvider>();
+                    loadingProvider.updateIsLoading(true);
+                    await FirestoreMethods().postBlog(
+                      context,
+                      _auth.currentUser!.uid,
+                      blogController.text.trim(),
+                    );
+                    loadingProvider.updateIsLoading(false);
+                    blogController.clear();
+                    if (context.mounted) {
+                      context.read<UiStateProvider>().showImage(null);
+                    }
+                  },
+                  child:
+                      context.watch<UiStateProvider>().isLoading
+                          ? CircularProgressIndicator(
+                            color: whiteClr,
+                            strokeWidth: 2,
+                          )
+                          : Text(
+                            "UPLOAD",
+                            style: TextStyle(color: whiteClr, fontSize: 16),
+                          ),
                 ),
               ),
             ],
