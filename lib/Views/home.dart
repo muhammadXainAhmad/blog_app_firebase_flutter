@@ -9,15 +9,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenW = MediaQuery.sizeOf(context).width;
     final screenH = MediaQuery.sizeOf(context).height;
-    return Scaffold(backgroundColor: bgClr,
-      appBar: AppBar(backgroundColor: bgClr,
+    return Scaffold(
+      backgroundColor: bgClr,
+      appBar: AppBar(
+        backgroundColor: bgClr,
         actions: [
           IconButton(
             onPressed: () async {
-              await AuthMethods().signOut();
-              if (context.mounted) {
-                Navigator.of(context).pushReplacementNamed("landing");
-              }
+              await AuthMethods().signOut(context);
             },
             icon: Icon(Icons.exit_to_app),
           ),

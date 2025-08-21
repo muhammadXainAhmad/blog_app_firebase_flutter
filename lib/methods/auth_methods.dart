@@ -45,7 +45,9 @@ class AuthMethods {
             message: "Account Successfully Created!",
             clr: successClr,
           );
-          Navigator.of(context).pushReplacementNamed("layout");
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil("layout", (Route<dynamic> route) => false);
         }
       } else {
         if (context.mounted) {
@@ -138,7 +140,10 @@ class AuthMethods {
                   }
                   if (context.mounted) {
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushReplacementNamed("layout");
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      "layout",
+                      (Route<dynamic> route) => false,
+                    );
                   }
                 } catch (err) {
                   if (context.mounted) {
@@ -188,7 +193,9 @@ class AuthMethods {
           password: password,
         );
         if (context.mounted) {
-          Navigator.of(context).pushReplacementNamed("layout");
+          Navigator.of(
+            context,
+          ).pushNamedAndRemoveUntil("layout", (Route<dynamic> route) => false);
         }
       } else {
         if (context.mounted) {
@@ -207,7 +214,10 @@ class AuthMethods {
   }
 
   // SIGN OUT
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     await _auth.signOut();
+    if (context.mounted) {
+      Navigator.of(context).pushReplacementNamed("landing");
+    }
   }
 }

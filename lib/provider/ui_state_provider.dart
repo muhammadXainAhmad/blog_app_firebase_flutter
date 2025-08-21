@@ -9,7 +9,7 @@ class UiStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool _hidePass = false;
+  bool _hidePass = true;
   bool get hidePass => _hidePass;
   void toggleHidePass() {
     _hidePass = !hidePass;
