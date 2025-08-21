@@ -8,6 +8,7 @@ class FirestoreMethods {
   Future<void> postBlog(
     BuildContext context,
     String uid,
+    String blogTitle,
     String blogContent,
     // String blogImage,
   ) async {
@@ -21,6 +22,7 @@ class FirestoreMethods {
         BlogModel blogModel = BlogModel(
           uid: uid,
           blogId: blogId,
+          blogTitle: blogTitle,
           name: name,
           blogContent: blogContent,
           postedAt: DateTime.now(),

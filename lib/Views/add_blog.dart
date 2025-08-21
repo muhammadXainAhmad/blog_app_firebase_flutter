@@ -15,17 +15,20 @@ class AddBlogPage extends StatefulWidget {
 
 class _AddBlogPageState extends State<AddBlogPage> {
   late final TextEditingController blogController;
+  late final TextEditingController titleController;
   final _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
     blogController = TextEditingController();
+    titleController = TextEditingController();
   }
 
   @override
   void dispose() {
     blogController.dispose();
+    titleController.dispose();
     super.dispose();
   }
 
@@ -47,6 +50,26 @@ class _AddBlogPageState extends State<AddBlogPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 4),
+                child: SizedBox(
+                  width: screenW * 0.9,
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    controller: titleController,
+                    keyboardType: TextInputType.multiline,
+                    textCapitalization: TextCapitalization.sentences,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: whiteClr,
+                      enabledBorder: eBorder,
+                      focusedBorder: fBorder,
+                      hintText: "Blog Title",
+                      hintStyle: TextStyle(color: blackClr, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
               GestureDetector(
                 onTap: () async {
                   showImageDialog(context);
@@ -112,10 +135,12 @@ class _AddBlogPageState extends State<AddBlogPage> {
                     await FirestoreMethods().postBlog(
                       context,
                       _auth.currentUser!.uid,
+                      titleController.text.trim(),
                       blogController.text.trim(),
                     );
                     loadingProvider.updateIsLoading(false);
                     blogController.clear();
+                    titleController.clear();
                     if (context.mounted) {
                       context.read<UiStateProvider>().showImage(null);
                     }
