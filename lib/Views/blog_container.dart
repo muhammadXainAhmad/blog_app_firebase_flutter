@@ -1,4 +1,6 @@
 import 'package:blog_app_firebase/utils/constants.dart';
+import 'package:blog_app_firebase/widgets/blog_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -26,16 +28,35 @@ class BlogContainer extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     left: 18,
                     right: 18,
-                    top: 8,
+                    top: 18,
                     bottom: 8,
                   ),
-                  child: Text(
-                    snap["blogTitle"],
-                    style: TextStyle(
-                      color: blackClr,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          snap["blogTitle"],
+                          style: TextStyle(
+                            color: blackClr,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      snap["uid"] == FirebaseAuth.instance.currentUser!.uid
+                          ? InkWell(
+                            onTap: () {
+                              blogDialog(context,snap);
+                            },
+                            child: Icon(
+                              Icons.more_vert,
+                              size: 24,
+                              color: blackClr,
+                            ),
+                          )
+                          : SizedBox.shrink(),
+                    ],
                   ),
                 ),
                 Padding(
@@ -67,6 +88,7 @@ class BlogContainer extends StatelessWidget {
                     padding: const EdgeInsets.only(
                       left: 18,
                       right: 18,
+                      top: 8,
                       bottom: 8,
                     ),
                     child: Text(
@@ -77,7 +99,7 @@ class BlogContainer extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 8),
+                  padding: const EdgeInsets.only(top: 12, bottom: 18),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryClr,

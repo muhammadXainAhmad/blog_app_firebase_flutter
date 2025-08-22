@@ -2,6 +2,7 @@ import 'package:blog_app_firebase/Views/blog_container.dart';
 import 'package:blog_app_firebase/methods/auth_methods.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,7 +12,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgClr,
-      appBar: AppBar(
+      appBar: AppBar(title: Text(FirebaseAuth.instance.currentUser!.email.toString()),
         backgroundColor: bgClr,
         actions: [
           IconButton(
@@ -31,7 +32,7 @@ class HomePage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(color: whiteClr, strokeWidth: 2),
+              child: CircularProgressIndicator(color: blackClr, strokeWidth: 2),
             );
           }
           return ListView.builder(

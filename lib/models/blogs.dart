@@ -6,6 +6,7 @@ class BlogModel {
   final String blogContent;
   final String? blogImage;
   final DateTime postedAt;
+  final DateTime? updatedAt;
 
   BlogModel({
     required this.uid,
@@ -15,15 +16,17 @@ class BlogModel {
     required this.blogContent,
     this.blogImage,
     required this.postedAt,
+    this.updatedAt,
   });
 
   Map<String, dynamic> toMap() => {
     "uid": uid,
     "blogId": blogId,
-    "blogTitle":blogTitle,
+    "blogTitle": blogTitle,
     "name": name,
     "blogContent": blogContent,
     "blogImage": blogImage,
     "postedAt": postedAt,
+    "updatedAt": updatedAt,
   };
 }

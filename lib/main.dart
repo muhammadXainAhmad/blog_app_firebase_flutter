@@ -1,3 +1,4 @@
+import 'package:blog_app_firebase/Views/add_blog.dart';
 import 'package:blog_app_firebase/Views/home.dart';
 import 'package:blog_app_firebase/Views/landing.dart';
 import 'package:blog_app_firebase/Views/layout.dart';
@@ -5,6 +6,7 @@ import 'package:blog_app_firebase/Views/login.dart';
 import 'package:blog_app_firebase/Views/phone_login.dart';
 import 'package:blog_app_firebase/Views/signup.dart';
 import 'package:blog_app_firebase/firebase_options.dart';
+import 'package:blog_app_firebase/provider/edit_blog_provider.dart';
 import 'package:blog_app_firebase/provider/ui_state_provider.dart';
 import 'package:blog_app_firebase/provider/nav_bar_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => NavBarProvider()),
         ChangeNotifierProvider(create: (context) => UiStateProvider()),
+        ChangeNotifierProvider(create: (context) => EditBlogProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -45,6 +48,7 @@ class MyApp extends StatelessWidget {
             return PhoneLoginPage(isLogin: args);
           },
           "layout": (context) => const Layout(),
+          "addBlog": (context) => const AddBlogPage(),
         },
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
