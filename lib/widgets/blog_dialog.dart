@@ -35,9 +35,11 @@ void blogDialog(BuildContext context, Map<String, dynamic> snap) {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   context.read<EditBlogProvider>().setUpdate(
-                    true,blogId: snap["blogId"],
+                    true,
+                    blogId: snap["blogId"],
                     title: snap["blogTitle"],
                     content: snap["blogContent"],
+                    imageUrl: snap["blogImage"],
                   );
                   Navigator.of(context).pushNamed("addBlog");
                 },

@@ -1,5 +1,7 @@
+import 'package:blog_app_firebase/methods/storage_methods.dart';
 import 'package:blog_app_firebase/models/blogs.dart';
 import 'package:blog_app_firebase/provider/edit_blog_provider.dart';
+import 'package:blog_app_firebase/provider/ui_state_provider.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +14,9 @@ class FirestoreMethods {
     String uid,
     String blogTitle,
     String blogContent,
-    // String blogImage,
   ) async {
     final editProvider = context.read<EditBlogProvider>();
+    final uiProvider = context.read<UiStateProvider>();
     try {
       if (blogContent.isNotEmpty) {
         final firestore = FirebaseFirestore.instance;
@@ -24,9 +26,17 @@ class FirestoreMethods {
         String name = "${userDoc['firstName']} ${userDoc['lastName']}";
 
         if (editProvider.isUpdate) {
+          String? downloadUrl = editProvider.imageUrl;
+          if (uiProvider.file != null) {
+            downloadUrl = await StorageMethods().uploadBlogImage(
+              uiProvider.file!,
+              editProvider.blogId!,
+            );
+          }
           await firestore.collection("blogs").doc(editProvider.blogId).update({
             "blogTitle": blogTitle,
             "blogContent": blogContent,
+            "blogImage": downloadUrl,
             "updatedAt": DateTime.now(),
           });
           if (context.mounted) {
@@ -39,6 +49,13 @@ class FirestoreMethods {
           }
         } else {
           String blogId = Uuid().v1();
+          String? downloadUrl;
+          if (context.mounted) {
+            downloadUrl = await StorageMethods().uploadBlogImage(
+              context.read<UiStateProvider>().file!,
+              blogId,
+            );
+          }
           BlogModel blogModel = BlogModel(
             uid: uid,
             blogId: blogId,
@@ -46,6 +63,7 @@ class FirestoreMethods {
             name: name,
             blogContent: blogContent,
             postedAt: DateTime.now(),
+            blogImage: downloadUrl,
           );
           firestore.collection("blogs").doc(blogId).set(blogModel.toMap());
           if (context.mounted) {

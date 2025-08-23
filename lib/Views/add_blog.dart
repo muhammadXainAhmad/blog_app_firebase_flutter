@@ -29,8 +29,6 @@ class _AddBlogPageState extends State<AddBlogPage> {
       if (editProvider.isUpdate) {
         titleController.text = editProvider.title ?? '';
         blogController.text = editProvider.content ?? '';
-        if (editProvider.imageUrl != null &&
-            editProvider.imageUrl!.isNotEmpty) {}
       }
     });
   }
@@ -39,7 +37,6 @@ class _AddBlogPageState extends State<AddBlogPage> {
   void dispose() {
     blogController.dispose();
     titleController.dispose();
-    context.read<EditBlogProvider>().clear();
     super.dispose();
   }
 
@@ -92,7 +89,7 @@ class _AddBlogPageState extends State<AddBlogPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 8, bottom: 4),
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: SizedBox(
                     width: screenW * 0.9,
                     child: TextField(
@@ -124,16 +121,23 @@ class _AddBlogPageState extends State<AddBlogPage> {
                     width: screenW * 0.9,
                     height: screenH * 0.25,
                     child:
-                        uiProvider.file == null
-                            ? Icon(
-                              Icons.add_a_photo_outlined,
-                              size: 32,
-                              color: blackClr,
-                            )
-                            : Image(
+                        uiProvider.file != null
+                            ? Image(
                               image: MemoryImage(uiProvider.file!),
                               fit: BoxFit.scaleDown,
                               alignment: Alignment.center,
+                            )
+                            : (editProvider.imageUrl != null &&
+                                editProvider.imageUrl!.isNotEmpty)
+                            ? Image.network(
+                              editProvider.imageUrl!,
+                              fit: BoxFit.cover,
+                              alignment: Alignment.center,
+                            )
+                            : Icon(
+                              Icons.add_a_photo_outlined,
+                              size: 32,
+                              color: blackClr,
                             ),
                   ),
                 ),
