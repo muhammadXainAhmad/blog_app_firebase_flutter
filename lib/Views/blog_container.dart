@@ -15,7 +15,7 @@ class BlogContainer extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 8, bottom: 8),
+          padding: const EdgeInsets.only(top: 4, bottom: 4),
           child: Container(
             width: screenW * 0.9,
             decoration: BoxDecoration(

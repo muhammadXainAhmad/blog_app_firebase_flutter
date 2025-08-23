@@ -12,7 +12,7 @@ class ReadBlogPage extends StatelessWidget {
     final screenH = MediaQuery.sizeOf(context).height;
     return Scaffold(
       backgroundColor: bgClr,
-      appBar: AppBar(backgroundColor: bgClr),  
+      appBar: AppBar(backgroundColor: bgClr),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
@@ -28,7 +28,6 @@ class ReadBlogPage extends StatelessWidget {
                   ),
                 ),
               ),
-    
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 18,
@@ -54,7 +53,7 @@ class ReadBlogPage extends StatelessWidget {
                   ],
                 ),
               ),
-    
+
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image(
@@ -62,6 +61,24 @@ class ReadBlogPage extends StatelessWidget {
                   height: screenH * 0.25,
                   image: NetworkImage(snap["blogImage"]),
                   fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return SizedBox(
+                      width: screenW * 0.9,
+                      height: screenH * 0.25,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value:
+                              loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                          color: blackClr,
+                          strokeWidth: 1.5,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               Padding(

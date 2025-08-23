@@ -87,4 +87,23 @@ class FirestoreMethods {
       }
     }
   }
+
+  Future<void> deleteBlog(BuildContext context, String blogId) async {
+    final firestore = FirebaseFirestore.instance;
+    try {
+      await StorageMethods().deleteBlogImage(blogId);
+      await firestore.collection("blogs").doc(blogId).delete();
+      if (context.mounted) {
+        showSnackBar(
+          context: context,
+          message: "Blog Successfully Deleted!",
+          clr: successClr,
+        );
+      }
+    } catch (err) {
+      if (context.mounted) {
+        showSnackBar(context: context, message: err.toString(), clr: errorClr);
+      }
+    }
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:blog_app_firebase/methods/firestore_methods.dart';
 import 'package:blog_app_firebase/provider/edit_blog_provider.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ void blogDialog(BuildContext context, Map<String, dynamic> snap) {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: bgClr,
+                color: successClr,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: blackClr),
               ),
@@ -55,7 +56,7 @@ void blogDialog(BuildContext context, Map<String, dynamic> snap) {
             ),
             child: Container(
               decoration: BoxDecoration(
-                color: bgClr,
+                color: errorClr,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: blackClr),
               ),
@@ -67,7 +68,12 @@ void blogDialog(BuildContext context, Map<String, dynamic> snap) {
                     Text("Delete Blog"),
                   ],
                 ),
-                onPressed: () async {},
+                onPressed: () async {
+                  await FirestoreMethods().deleteBlog(context, snap["blogId"]);
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                },
               ),
             ),
           ),

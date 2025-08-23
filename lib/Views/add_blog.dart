@@ -196,7 +196,7 @@ class _AddBlogPageState extends State<AddBlogPage> {
                       titleController.clear();
                       if (context.mounted) {
                         context.read<UiStateProvider>().showImage(null);
-                        Navigator.of(context).pushNamed("home");
+                        Navigator.of(context).pushReplacementNamed("home");
                       }
                     },
                     child:
