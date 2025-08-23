@@ -1,3 +1,4 @@
+import 'package:blog_app_firebase/Views/read_blog.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:blog_app_firebase/widgets/blog_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +36,7 @@ class BlogContainer extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          textAlign: TextAlign.center,
+                          textAlign: TextAlign.start,
                           snap["blogTitle"],
                           style: TextStyle(
                             color: blackClr,
@@ -47,7 +48,7 @@ class BlogContainer extends StatelessWidget {
                       snap["uid"] == FirebaseAuth.instance.currentUser!.uid
                           ? InkWell(
                             onTap: () {
-                              blogDialog(context,snap);
+                              blogDialog(context, snap);
                             },
                             child: Icon(
                               Icons.more_vert,
@@ -108,7 +109,13 @@ class BlogContainer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ReadBlogPage(snap: snap),
+                        ),
+                      );
+                    },
                     child: Text(
                       "Read more",
                       style: TextStyle(color: whiteClr, fontSize: 14),

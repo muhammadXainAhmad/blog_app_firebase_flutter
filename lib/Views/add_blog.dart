@@ -112,34 +112,44 @@ class _AddBlogPageState extends State<AddBlogPage> {
                   onTap: () async {
                     showImageDialog(context);
                   },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1.5, color: blackClr),
-                      color: whiteClr,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    width: screenW * 0.9,
-                    height: screenH * 0.25,
-                    child:
-                        uiProvider.file != null
-                            ? Image(
+                  child:
+                      uiProvider.file != null
+                          ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image(
                               image: MemoryImage(uiProvider.file!),
-                              fit: BoxFit.scaleDown,
+                              fit: BoxFit.cover,
                               alignment: Alignment.center,
-                            )
-                            : (editProvider.imageUrl != null &&
-                                editProvider.imageUrl!.isNotEmpty)
-                            ? Image.network(
+                              width: screenW * 0.9,
+                              height: screenH * 0.25,
+                            ),
+                          )
+                          : (editProvider.imageUrl != null &&
+                              editProvider.imageUrl!.isNotEmpty)
+                          ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              width: screenW * 0.9,
+                              height: screenH * 0.25,
                               editProvider.imageUrl!,
                               fit: BoxFit.cover,
                               alignment: Alignment.center,
-                            )
-                            : Icon(
+                            ),
+                          )
+                          : Container(
+                            width: screenW * 0.9,
+                            height: screenH * 0.25,
+                            decoration: BoxDecoration(
+                              color: whiteClr,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: bgClr2, width: 1.5),
+                            ),
+                            child: Icon(
                               Icons.add_a_photo_outlined,
                               size: 32,
                               color: blackClr,
                             ),
-                  ),
+                          ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 4),
@@ -186,6 +196,7 @@ class _AddBlogPageState extends State<AddBlogPage> {
                       titleController.clear();
                       if (context.mounted) {
                         context.read<UiStateProvider>().showImage(null);
+                        Navigator.of(context).pushNamed("home");
                       }
                     },
                     child:
