@@ -12,7 +12,7 @@ class Layout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final navProvider = Provider.of<NavBarProvider>(context);
-    final pages = const [HomePage(), AddBlogPage(), ProfilePage()];
+    final pages = [HomePage(), AddBlogPage(), ProfilePage()];
     return Scaffold(
       bottomNavigationBar: HomeNavBar(),
       body: pages[navProvider.selectedIndex],

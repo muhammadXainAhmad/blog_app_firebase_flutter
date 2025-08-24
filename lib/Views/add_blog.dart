@@ -62,8 +62,12 @@ class _AddBlogPageState extends State<AddBlogPage> {
           title: Padding(
             padding: const EdgeInsets.only(left: 7),
             child: Text(
-              editProvider.isUpdate ? "Edit blog" : "Post a new blog",
-              style: TextStyle(color: blackClr, fontSize: 22),
+              editProvider.isUpdate ? "EDIT BLOG" : "POST A NEW BLOG",
+              style: TextStyle(
+                color: blackClr,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           actions: [

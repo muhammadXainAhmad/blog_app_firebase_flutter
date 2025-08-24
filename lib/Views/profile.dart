@@ -17,16 +17,27 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: bgClr,
       appBar: AppBar(
-        title: Text("My Blogs"),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 7.0),
+          child: Text(
+            "MY BLOGS",
+            style: TextStyle(
+              color: blackClr,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
         backgroundColor: bgClr,
         actions: [
           IconButton(
+            tooltip: "Sign Out",
             onPressed: () async {
               await AuthMethods().signOut(context);
             },
             icon: Padding(
               padding: const EdgeInsets.only(right: 18),
-              child: Icon(Icons.exit_to_app, color: blackClr, size: 26),
+              child: Icon(Icons.logout, color: blackClr, size: 26),
             ),
           ),
         ],
@@ -43,6 +54,15 @@ class ProfilePage extends StatelessWidget {
               child: CircularProgressIndicator(
                 color: blackClr,
                 strokeWidth: 1.5,
+              ),
+            );
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text(
+                "You haven't shared any blogs yet. Start writing your first one!",
+                style: TextStyle(color: blackClr),
               ),
             );
           }
@@ -64,7 +84,7 @@ class ProfilePage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 18,
-                    vertical: 8,
+                    vertical: 4,
                   ),
                   child: Container(
                     decoration: BoxDecoration(
@@ -75,7 +95,10 @@ class ProfilePage extends StatelessWidget {
                     child: Row(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10),
+                          ),
                           child: Image(
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
