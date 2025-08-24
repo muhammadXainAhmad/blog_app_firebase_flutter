@@ -1,6 +1,10 @@
+import 'package:blog_app_firebase/methods/firestore_methods.dart';
+import 'package:blog_app_firebase/provider/edit_blog_provider.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ReadBlogPage extends StatelessWidget {
   final snap;
@@ -12,7 +16,46 @@ class ReadBlogPage extends StatelessWidget {
     final screenH = MediaQuery.sizeOf(context).height;
     return Scaffold(
       backgroundColor: bgClr,
-      appBar: AppBar(backgroundColor: bgClr),
+      appBar: AppBar(
+        backgroundColor: bgClr,
+        actions: [
+          snap["uid"] == FirebaseAuth.instance.currentUser!.uid
+              ? Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                        context.read<EditBlogProvider>().setUpdate(
+                          true,
+                          blogId: snap["blogId"],
+                          title: snap["blogTitle"],
+                          content: snap["blogContent"],
+                          imageUrl: snap["blogImage"],
+                        );
+                        Navigator.of(context).pushNamed("addBlog");
+                      },
+                      icon: Icon(Icons.edit_note, size: 28, color: blackClr),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await FirestoreMethods().deleteBlog(
+                          context,
+                          snap["blogId"],
+                        );
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                      icon: Icon(Icons.delete, size: 24, color: blackClr),
+                    ),
+                  ],
+                ),
+              )
+              : SizedBox.shrink(),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

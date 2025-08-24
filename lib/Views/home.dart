@@ -1,5 +1,4 @@
 import 'package:blog_app_firebase/Views/blog_container.dart';
-import 'package:blog_app_firebase/methods/auth_methods.dart';
 import 'package:blog_app_firebase/utils/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,16 +11,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgClr,
-      appBar: AppBar(title: Text(FirebaseAuth.instance.currentUser!.email.toString()),
+      appBar: AppBar(
+        title: Text(FirebaseAuth.instance.currentUser!.email.toString()),
         backgroundColor: bgClr,
-        actions: [
-          IconButton(
-            onPressed: () async {
-              await AuthMethods().signOut(context);
-            },
-            icon: Icon(Icons.exit_to_app),
-          ),
-        ],
       ),
       body: StreamBuilder(
         stream:

@@ -42,7 +42,7 @@ class HomeNavBar extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.settings,
+              Icons.person_rounded,
               color: navProvider.selectedIndex == 2 ? blackClr : bgClr2,
             ),
             label: "",
