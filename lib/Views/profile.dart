@@ -59,10 +59,30 @@ class ProfilePage extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Text(
-                "You haven't shared any blogs yet. Start writing your first one!",
-                style: TextStyle(color: blackClr),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "You haven't shared any blogs yet.",
+                      style: TextStyle(
+                        color: blackClr,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      "Start writing your first one!",
+                      style: TextStyle(
+                        color: blackClr,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           }

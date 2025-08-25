@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
 
   final ValueNotifier<String> searchQuery = ValueNotifier<String>("");
   final TextEditingController searchController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +92,7 @@ class HomePage extends StatelessWidget {
             return Center(
               child: Text(
                 "No blogs available.",
-                style: TextStyle(color: blackClr),
+                style: TextStyle(color: blackClr,fontSize: 14,fontWeight: FontWeight.w500),
               ),
             );
           }
